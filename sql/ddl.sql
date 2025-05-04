@@ -1,0 +1,9 @@
+CREATE TABLE members (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL, -- 반드시 암호화 필요!
+    full_name VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20),
+    role ENUM('USER', 'ADMIN') DEFAULT 'USER',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

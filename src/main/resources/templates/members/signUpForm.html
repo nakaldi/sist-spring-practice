@@ -2,19 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container">
-    <form action="/members/signUp" method="post">
+    <!-- th:object 를 사용하여 model 에서 memberSignUpForm 속성을 참조 -->
+    <form th:action="@{/members/signUp}" th:object="${memberSignUpForm}" method="post">
         <div class="form-group">
             <label for="email">EMAIL</label>
-            <input type="text" id="email" name="email" placeholder="이메일을 입력하세요">
+            <!-- th:field 로 해당 객체의 email 속성과 바인딩 -->
+            <input type="text" id="email" th:field="*{email}" placeholder="이메일을 입력하세요">
+
             <label for="password">PASSWORD</label>
-            <input type="text" id="password" name="password" placeholder="비밀번호를 입력하세요">
+            <input type="text" id="password" th:field="*{password}" placeholder="비밀번호를 입력하세요">
+
             <label for="phoneNumber">PHONE NUMBER</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="핸드폰 번호를 입력하세요">
+            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="핸드폰 번호를 입력하세요">
+
             <label for="fullName">FULL NAME</label>
-            <input type="text" id="fullName" name="fullName" placeholder="이름을 입력하세요">
+            <input type="text" id="fullName" th:field="*{fullName}" placeholder="이름을 입력하세요">
         </div>
         <button type="submit">등록</button>
     </form>
-</div> <!-- /container -->
+    <!-- 에러 메시지를 출력하는 예시 -->
+    <div th:if="${errorMessage}" style="color:red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+</div>
 </body>
 </html>

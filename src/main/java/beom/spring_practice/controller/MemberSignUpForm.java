@@ -8,6 +8,9 @@ public class MemberSignUpForm {
     private String fullName;
     private String phoneNumber;
 
+    public MemberSignUpForm() {
+    }
+
     public MemberSignUpForm(String email, String password, String fullName, String phoneNumber) {
         this.email = email;
         this.password = password;

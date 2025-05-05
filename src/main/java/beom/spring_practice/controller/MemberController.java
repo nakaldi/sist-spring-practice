@@ -2,8 +2,10 @@ package beom.spring_practice.controller;
 
 import beom.spring_practice.domain.Member;
 import beom.spring_practice.service.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,7 @@ public class MemberController {
      * get으로 들어갈때는 빈 폼 데이터를 전달해서 아무것도 채우지 않은 상태로 감.
      */
     @GetMapping("/members/signUp")
-    public String signupForm(Model model) {
+    public String signUpForm(Model model) {
         model.addAttribute("memberSignUpForm", new MemberSignUpForm());
         return "/members/signUpForm";
     }
@@ -30,7 +32,12 @@ public class MemberController {
      * post로 들어가면 회원가입을 실행하고, 예외가 발생했다면 입력한 정보와 예외 메시지를 가지고 다시 그 페이지로 포워드
      */
     @PostMapping("/members/signUp")
-    public String signup(@ModelAttribute MemberSignUpForm memberSignUpForm, Model model) {
+    public String signUp(@Valid @ModelAttribute MemberSignUpForm memberSignUpForm, BindingResult bindingResult, Model model) {
+        // Form을 Valid 해서 에러가 발생하면 에러메시지와 함께 폼 페이지로 포워드
+        if (bindingResult.hasErrors()) {
+            memberSignUpForm.setPassword("");
+            return "/members/signUpForm";
+        }
         Member member = new Member();
         member.setEmail(memberSignUpForm.getEmail());
         member.setPassword(memberSignUpForm.getPassword());

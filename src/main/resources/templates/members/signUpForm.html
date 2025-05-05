@@ -6,17 +6,30 @@
     <form th:action="@{/members/signUp}" th:object="${memberSignUpForm}" method="post">
         <div class="form-group">
             <label for="email">EMAIL</label>
-            <!-- th:field 로 해당 객체의 email 속성과 바인딩 -->
             <input type="text" id="email" th:field="*{email}" placeholder="이메일을 입력하세요">
+            <div th:if="${#fields.hasErrors('email')}" style="color:red;">
+                <p th:text="${#fields.errors('email')[0]}"></p>
+            </div>
 
             <label for="password">PASSWORD</label>
-            <input type="text" id="password" th:field="*{password}" placeholder="비밀번호를 입력하세요">
+            <input type="password" id="password" th:field="*{password}" placeholder="비밀번호를 입력하세요">
+            <div th:if="${#fields.hasErrors('password')}" style="color:red;">
+                <p th:text="${#fields.errors('password')[0]}"></p>
+
+            </div>
 
             <label for="phoneNumber">PHONE NUMBER</label>
             <input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="핸드폰 번호를 입력하세요">
+            <div th:if="${#fields.hasErrors('phoneNumber')}" style="color:red;">
+                <p th:text="${#fields.errors('phoneNumber')[0]}"></p>
+            </div>
 
             <label for="fullName">FULL NAME</label>
             <input type="text" id="fullName" th:field="*{fullName}" placeholder="이름을 입력하세요">
+            <div th:if="${#fields.hasErrors('fullName')}" style="color:red;">
+                <p th:text="${#fields.errors('fullName')[0]}"></p>
+
+            </div>
         </div>
         <button type="submit">등록</button>
     </form>
@@ -27,3 +40,4 @@
 </div>
 </body>
 </html>
+

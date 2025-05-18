@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.sql.DataSource;
 
@@ -16,11 +17,13 @@ public class SpringConfig {
     private final DataSource dataSource;
     private final EntityManager em;
     private final PasswordEncoder passwordEncoder;
+    private final WebClient.Builder webClientBuilder;
 
-    public SpringConfig(DataSource dataSource, EntityManager em, PasswordEncoder passwordEncoder) {
+    public SpringConfig(DataSource dataSource, EntityManager em, PasswordEncoder passwordEncoder, WebClient.Builder webClientBuilder) {
         this.dataSource = dataSource;
         this.em = em;
         this.passwordEncoder = passwordEncoder;
+        this.webClientBuilder = webClientBuilder;
     }
 
     @Bean
@@ -31,5 +34,10 @@ public class SpringConfig {
     @Bean
     public MemberRepository memberRepository() {
         return new JpaMemberRepository(em);
+    }
+
+    @Bean
+    public ApiTokenManager apiTokenManager() {
+        return new ApiTokenManager(webClientBuilder);
     }
 }

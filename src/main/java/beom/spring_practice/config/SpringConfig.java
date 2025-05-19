@@ -38,7 +38,17 @@ public class SpringConfig {
     }
 
     @Bean
+    public WebClient webClient() {
+        return webClientBuilder.baseUrl("https://openapivts.koreainvestment.com:29443").build();
+    }
+
+    @Bean
+    public ApiTokenManager apiTokenManager() {
+        return new ApiTokenManager(webClient());
+    }
+
+    @Bean
     public StockService stockService() {
-        return new StockService(webClientBuilder);
+        return new StockService(webClient(), apiTokenManager());
     }
 }

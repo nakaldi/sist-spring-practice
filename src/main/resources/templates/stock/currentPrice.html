@@ -1,11 +1,64 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div class="current-price-container">
-  <h2> 현재가</h2>
+<div class="container">
+  <h1>주식 현재가 상세 정보</h1>
 
+  <div th:if="${errorMessage}">
+    <p th:text="${errorMessage}"></p>
+  </div>
 
+  <div th:if="${stockData != null and errorMessage == null}">
+    <h2>API 응답 상태</h2>
+    <table>
+      <tr>
+        <td class="label">응답 결과 코드 (rt_cd)</td>
+        <td th:text="${stockData.rtCd}"></td>
+      </tr>
+      <tr>
+        <td class="label">응답 메시지 코드 (msg_cd)</td>
+        <td th:text="${stockData.msgCd}"></td>
+      </tr>
+      <tr>
+        <td class="label">응답 메시지 (msg1)</td>
+        <td th:text="${stockData.msg1}"></td>
+      </tr>
+    </table>
 
-</div>
+    <div th:if="${stockData.rtCd == '0' and stockData.output != null}">
+      <h2>주식 상세 정보 (Output)</h2>
+      <table>
+        <tr><td class="label">종목 상태 구분 코드</td><td th:text="${stockData.output.iscdStatClsCode}"></td></tr>
+        <tr><td class="label">대표 시장 한글 명</td><td th:text="${stockData.output.rprsMrktKorName}"></td></tr>
+        <tr><td class="label">업종 한글 종목명</td><td th:text="${stockData.output.bstpKorIsnm}"></td></tr>
+        <tr><td class="label">주식 현재가</td><td th:text="${stockData.output.stckPrpr}"></td></tr>
+        <tr><td class="label">전일 대비</td><td th:text="${stockData.output.prdyVrss}"></td></tr>
+        <tr><td class="label">전일 대비 부호</td><td th:text="${stockData.output.prdyVrssSign}"></td></tr>
+        <tr><td class="label">전일 대비율</td><td th:text="${stockData.output.prdyCtrt}"></td></tr>
+        <tr><td class="label">누적 거래량</td><td th:text="${stockData.output.acmlVol}"></td></tr>
+        <tr><td class="label">주식 시가</td><td th:text="${stockData.output.stckOprc}"></td></tr>
+        <tr><td class="label">주식 최고가</td><td th:text="${stockData.output.stckHgpr}"></td></tr>
+        <tr><td class="label">주식 최저가</td><td th:text="${stockData.output.stckLwpr}"></td></tr>
+        <tr><td class="label">PER</td><td th:text="${stockData.output.per}"></td></tr>
+        <tr><td class="label">PBR</td><td th:text="${stockData.output.pbr}"></td></tr>
+        <tr><td class="label">EPS</td><td th:text="${stockData.output.eps}"></td></tr>
+        <tr><td class="label">BPS</td><td th:text="${stockData.output.bps}"></td></tr>
+      </table>
+    </div>
+
+    <div th:if="${stockData.rtCd == '0' and stockData.output == null}">
+      <p>API 호출은 성공했으나, 표시할 상세 데이터(output)가 없습니다.</p>
+    </div>
+
+    <div th:if="${stockData.rtCd != '0'}">
+      <p class="error">API 응답 오류: <span th:text="${stockData.msg1}"></span></p>
+    </div>
+  </div>
+
+  <div th:if="${stockData == null and errorMessage == null}">
+    <p>조회된 주식 정보가 없습니다.</p>
+  </div>
+  <hr>
+  <p><a th:href="@{/stock}">돌아가기</a></p> </div>
 </body>
 </html>

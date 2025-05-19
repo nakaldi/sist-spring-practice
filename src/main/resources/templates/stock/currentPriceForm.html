@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="current-price-form-container">
+  <h2>종목별 현재가 조회</h2>
+  <form th:action="@{/stock/current-price}" method="post">
+    <div class="input-box">
+      <label for="FID_INPUT_ISCD">종목 코드 입력:</label>
+      <input type="text" id="FID_INPUT_ISCD" name="FID_INPUT_ISCD" placeholder="종목 코드를 입력하세요" required/>
+    </div>
+    <button type="submit">요청</button>
+  </form>
+</div>
+</body>
+</html>

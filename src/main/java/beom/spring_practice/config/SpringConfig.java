@@ -3,6 +3,7 @@ package beom.spring_practice.config;
 import beom.spring_practice.repository.JpaMemberRepository;
 import beom.spring_practice.repository.MemberRepository;
 import beom.spring_practice.service.MemberService;
+import beom.spring_practice.service.StockService;
 import jakarta.persistence.EntityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +38,7 @@ public class SpringConfig {
     }
 
     @Bean
-    public ApiTokenManager apiTokenManager() {
-        return new ApiTokenManager(webClientBuilder);
+    public StockService stockService() {
+        return new StockService(webClientBuilder);
     }
 }

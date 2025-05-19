@@ -1,4 +1,4 @@
-package beom.spring_practice.config;
+package beom.spring_practice.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import java.time.LocalDateTime;
 import java.util.Map;
 
-public class ApiTokenManager {
+public class StockService {
 
     private final WebClient authWebClient;
     private String accessToken;
@@ -20,12 +20,15 @@ public class ApiTokenManager {
     @Value("${stock-api.appsecret}")
     private String appSecret;
 
-    public ApiTokenManager(WebClient.Builder authWebClientBuilder) {
+    public StockService(WebClient.Builder authWebClientBuilder) {
         this.authWebClient = authWebClientBuilder
                 .baseUrl("https://openapivts.koreainvestment.com:29443") // 토큰 발급 서버 URL 설정
                 .build();
     }
 
+    public void getCurrentPrice() {
+        return;
+    }
     /**
      * API 요청을 위한 액세스 토큰을 받아옴. 액세스 토큰은 싱글톤 방식으로 관리됨.
      * 액세스 토큰을 요청한지 6시간이 지났으면, 액세스 토큰을 외부 API에 새롭게 요청해 발급받음.
@@ -41,7 +44,7 @@ public class ApiTokenManager {
         return accessToken;
     }
 
-    public void requestAccessToken() {
+    private void requestAccessToken() {
         System.out.println("Requesting new token");
 
         try {
@@ -56,7 +59,7 @@ public class ApiTokenManager {
                 String newAccessToken = responseNode.get("access_token").asText(); // 타입 안전하게 텍스트로 가져옴
                 this.accessToken = newAccessToken;
                 this.createdAt = LocalDateTime.now();
-                System.out.println(createdAt + " 에 새로운 토큰 발급 : " + newAccessToken.substring(0, 10) + "...");
+                System.out.println(createdAt + " 에 새로운 토큰 발급 : " + newAccessToken);
 
             } else {
                 throw new RuntimeException("Failed to refresh API token or access_token not found in response");
